@@ -115,6 +115,7 @@ export default function RecipeCard({ itemData }) {
           <EditOutlined key="edit" onClick={() => setDrawer(true)} />,
           <DeleteOutlined style={{ color: 'red' }} key="delete" onClick={handleDelete} />
         ]}
+        onClick={() => router.push(`/viewRecipe?rcp=${recipe.id}`)}
       >
         <Card.Meta
           title={itemData.name}
@@ -129,13 +130,7 @@ export default function RecipeCard({ itemData }) {
           }
         />
       </Card>
-      {drawer && (
-        <EditRecipe
-          drawer={drawer}
-          setDrawer={setDrawer}
-          recipe={itemData}
-        />
-      )}
+      {drawer && <EditRecipe drawer={drawer} setDrawer={setDrawer} recipe={itemData} />}
     </>
   )
 }

@@ -6,6 +6,7 @@ import { SettingOutlined } from '@ant-design/icons'
 import { auth } from '../lib/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAtom, useAtomValue } from 'jotai'
+import Link from 'next/link'
 
 const { Header } = Layout
 const { SubMenu } = Menu
@@ -33,42 +34,61 @@ export default function HeaderClient() {
       })
   }
 
+  const LoggedMenuItems = [
+    {
+      label: (
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+      ),
+      key: 'hom'
+    },
+    {
+      label: (
+        <Link href="/myIngredients">
+          <a>Ingredients</a>
+        </Link>
+      ),
+      key: 'ingr'
+    },
+    {
+      label: (
+        <Link href="/myRecipes">
+          <a>Recipes</a>
+        </Link>
+      ),
+      key: 'rec'
+    },
+    {
+      label: `${user?.displayName}`,
+      key: 'use',
+      icon: <SettingOutlined />,
+      children: [
+        { label: <p onClick={() => setProfileOn(true)}>Profile</p>, key: 'pro' },
+        { label: 'Other', key: 'oth' },
+        { label: <p onClick={onSignOut}>Sign Out</p>, key: 'out' }
+      ]
+    }
+  ]
+
+  const NotLoggedMenuItems = [
+    {
+      label: (
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+      ),
+      key: 'hom'
+    },
+    { label: <a onClick={() => setSignInOn(true)}>Sign/Log In</a>, key: 'sin' }
+  ]
+
   const LoggedMenu = () => {
-    return (
-      <Menu mode="horizontal" theme="dark">
-        <Menu.Item key="setting:1" onClick={() => router.push('/')}>
-          Home
-        </Menu.Item>
-        <Menu.Item key="setting:2" onClick={() => router.push('/myIngredients')}>
-          Ingredients
-        </Menu.Item>
-        <Menu.Item key="setting:3" onClick={() => router.push('/myRecipes')}>
-          Recipes
-        </Menu.Item>
-        <SubMenu key="SubMenu" icon={<SettingOutlined />} title={user.displayName}>
-          <Menu.Item key="setting:4.1" onClick={() => setProfileOn(true)}>
-            Profile
-          </Menu.Item>
-          <Menu.Item key="setting:4.2">Option 2</Menu.Item>
-          <Menu.Item key="setting:4.3" onClick={onSignOut}>
-            Sign Out
-          </Menu.Item>
-        </SubMenu>
-      </Menu>
-    )
+    return <Menu mode="horizontal" theme="dark" items={LoggedMenuItems} />
   }
 
   const NotLoggedMenu = () => {
-    return (
-      <Menu mode="horizontal" theme="dark">
-        <Menu.Item key="setting:1" onClick={() => router.push('/')}>
-          Home
-        </Menu.Item>
-        <Menu.Item key="setting:2" onClick={() => setSignInOn(true)}>
-          Sign/Log In
-        </Menu.Item>
-      </Menu>
-    )
+    return <Menu mode="horizontal" theme="dark" items={NotLoggedMenuItems} />
   }
 
   return (

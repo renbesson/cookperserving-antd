@@ -68,7 +68,7 @@ export default function myIngredients() {
         ></Card>
       </Col>
       {ingrs?.map((ingr) => (
-        <Col key={ingr.id}>
+        <Col key={[ingr.id].toString()}>
           <IngredientCard itemData={ingr} />
         </Col>
       ))}
