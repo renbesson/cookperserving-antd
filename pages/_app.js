@@ -44,7 +44,7 @@ export default function MyApp({ Component, pageProps }) {
         <SignUpDrawer />
         <ProfileDrawer />
         <HeaderClient />
-        <Content style={{ alignSelf: 'center', padding: screens.lg ? '30px' : '10px' }}>
+        <Content style={{ alignSelf: 'center', padding: screens.lg ? '50px' : '10px' }}>
           <Component {...pageProps} />
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

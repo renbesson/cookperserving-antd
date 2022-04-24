@@ -97,6 +97,7 @@ export default function RecipeCard({ itemData }) {
             style={{ maxWidth: 300, maxHeight: 130 }}
             alt="example"
             src={itemData?.imgURL || 'no_img.png'}
+            onClick={() => router.push(`/viewRecipe?rcp=${itemData.id}`)}
           />
         }
         hoverable
@@ -115,7 +116,6 @@ export default function RecipeCard({ itemData }) {
           <EditOutlined key="edit" onClick={() => setDrawer(true)} />,
           <DeleteOutlined style={{ color: 'red' }} key="delete" onClick={handleDelete} />
         ]}
-        onClick={() => router.push(`/viewRecipe?rcp=${recipe.id}`)}
       >
         <Card.Meta
           title={itemData.name}
@@ -128,6 +128,7 @@ export default function RecipeCard({ itemData }) {
               {itemData.description}
             </div>
           }
+          onClick={() => router.push(`/viewRecipe?rcp=${itemData.id}`)}
         />
       </Card>
       {drawer && <EditRecipe drawer={drawer} setDrawer={setDrawer} recipe={itemData} />}
