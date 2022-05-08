@@ -23,7 +23,7 @@ export default function EditIngredient({ ingr, drawer, setDrawer }) {
       } else
         notification.error({
           message: 'Error Updating Ingredient',
-          description: `${error}`
+          description: `${obj.error.message}`
         })
     })
   }

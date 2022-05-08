@@ -1,4 +1,4 @@
-import { collection } from 'firebase/firestore'
+import { collection, orderBy, query, Timestamp } from 'firebase/firestore'
 import { useAtomValue } from 'jotai'
 import { userAtom } from '../lib/atoms'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -16,18 +16,21 @@ export default function myRecipes() {
   const user = useAtomValue(userAtom)
   const [newUid, setNewUid] = useState(nanoid())
   const [recipes, recipesLoading, recipesError] = useCollectionData(
-    collection(firestore, `users/${user?.uid}/recipes/`)
+    query(collection(firestore, `users/${user?.uid}/recipes/`), orderBy('createdAt', 'asc'))
   )
 
   const addRecipe = async () => {
     const path = `users/${user.uid}/recipes`
-    await addToFirestore(path, newUid, {
+    const newRecipe = {
       id: newUid,
       name: 'Untitled',
       servings: '',
       ingredients: [],
-      directions: ''
-    }).then((obj) => {
+      directions: '',
+      createdOn: Timestamp.now(),
+      modifiedOn: Timestamp.now()
+    }
+    await addToFirestore(path, newUid, newRecipe).then((obj) => {
       if (obj?.success) {
         notification.success({
           message: 'New Recipe Created',
@@ -36,7 +39,7 @@ export default function myRecipes() {
       } else
         notification.error({
           message: 'Error Creating Recipe',
-          description: `${error.message}`
+          description: `${obj.error.message}`
         })
     })
   }

@@ -5,21 +5,11 @@ import { collection, doc, query, where } from 'firebase/firestore'
 import { firestore } from '../lib/firebase'
 import { useAtomValue } from 'jotai'
 import { userAtom } from '../lib/atoms'
-import { Col, Divider, Form, Image, InputNumber, Row, Typography } from 'antd'
-
-const tableClass = {
-  borderCollapse: 'collapse',
-  width: '500px'
-}
-
-const tdth = {
-  textAlign: 'left',
-  padding: '8px'
-}
+import { Col, Divider, Form, Grid, Image, InputNumber, Row, Typography } from 'antd'
 
 export default function viewRecipe() {
   const router = useRouter()
-
+  const screens = Grid.useBreakpoint()
   const user = useAtomValue(userAtom)
   const { rcp } = router.query
   const [recipe, recipeLoading, recipeError] = useDocumentData(
@@ -33,6 +23,16 @@ export default function viewRecipe() {
     idsArray && query(ingrsRef, where('id', 'in', idsArray))
   )
   const [servings, setServings] = useState(recipe?.servings)
+
+  const tableClass = {
+    borderCollapse: 'collapse',
+    width: screens.xs ? '90vw' : '500px'
+  }
+
+  const tdth = {
+    textAlign: 'left',
+    padding: '8px'
+  }
 
   useEffect(() => {
     setServings(recipe?.servings)
@@ -67,7 +67,7 @@ export default function viewRecipe() {
 
             return (
               <tr key={index}>
-                <td>
+                <td style={{ textAlign: 'right', paddingRight: '50px', width: '100px' }}>
                   {amount}
                   {el.amountType}
                 </td>
@@ -94,7 +94,7 @@ export default function viewRecipe() {
         </Col>
         <Col>
           <InputNumber
-            style={{ width: '135px' }}
+            style={{ width: '150px', margin: '20px' }}
             addonBefore="Servings:"
             placeholder="Servings"
             value={servings}

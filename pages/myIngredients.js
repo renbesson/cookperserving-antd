@@ -1,4 +1,4 @@
-import { collection } from 'firebase/firestore'
+import { collection, orderBy, query, serverTimestamp, Timestamp } from 'firebase/firestore'
 import { useAtomValue } from 'jotai'
 
 import { userAtom } from '../lib/atoms'
@@ -16,21 +16,24 @@ const nanoid = customAlphabet('0123456789', 6)
 export default function myIngredients() {
   const user = useAtomValue(userAtom)
   const [newUid, setNewUid] = useState(nanoid())
-  const [ingrs, ingLoading, ingError] = useCollectionData(
-    collection(firestore, `users/${user?.uid}/ingredients/`)
+  const [ingrs, ingrsLoading, ingrsError] = useCollectionData(
+    query(collection(firestore, `users/${user?.uid}/ingredients/`), orderBy('createdAt', 'asc'))
   )
 
   const addIngr = async (event) => {
-    event.preventDefault()
     const path = `users/${user.uid}/ingredients`
-    await addToFirestore(path, newUid, {
+    const newIngr = {
       id: newUid,
       name: 'Untitled',
       amount: '',
       amountType: '',
       price: '',
-      availableQty: ''
-    }).then((obj) => {
+      availableQty: '',
+      createdAt: serverTimestamp(),
+      modifiedOn: serverTimestamp()
+    }
+    event.preventDefault()
+    await addToFirestore(path, newUid, newIngr).then((obj) => {
       if (obj?.success) {
         setNewUid(nanoid())
         notification.success({
@@ -40,7 +43,7 @@ export default function myIngredients() {
       } else {
         notification.error({
           message: 'Error Creating Product',
-          description: `${error.message}`
+          description: `${obj.error.message}`
         })
       }
     })
@@ -48,6 +51,7 @@ export default function myIngredients() {
 
   return (
     <Row align="middle" justify="center" gutter={[20, 20]}>
+      <p>{JSON.stringify(ingrsError)}</p>
       <Col>
         <Card
           style={{ width: 300, height: 300 }}

@@ -33,13 +33,13 @@ export default function SignUpDrawer() {
         } else
           notification.error({
             message: 'Error Updating Profile',
-            description: `${error}`
+            description: `${obj.error.message}`
           })
       })
     } catch (error) {
       notification.error({
         message: 'Error Updating Profile',
-        description: `${error}`
+        description: `${error.message}`
       })
     }
   }

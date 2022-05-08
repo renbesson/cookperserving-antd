@@ -46,7 +46,7 @@ export default function IngredientCard({ itemData }) {
                 else
                   notification.error({
                     message: 'Error Adding Image',
-                    description: `${error.message}`
+                    description: `${obj.error.message}`
                   })
               })
             }
@@ -73,7 +73,7 @@ export default function IngredientCard({ itemData }) {
         } else
           notification.error({
             message: 'Error Deleting Image',
-            description: `${error.message}`
+            description: `${obj.error.message}`
           })
       })
     }
@@ -88,7 +88,7 @@ export default function IngredientCard({ itemData }) {
       } else
         notification.error({
           message: 'Error Deleting Ingredient',
-          description: `${error.message}`
+          description: `${obj.error.message}`
         })
     })
   }

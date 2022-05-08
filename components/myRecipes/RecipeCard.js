@@ -41,7 +41,7 @@ export default function RecipeCard({ itemData }) {
                 else
                   notification.error({
                     message: 'Error Adding Image',
-                    description: `${error.message}`
+                    description: `${obj.error.message}`
                   })
               })
             }
@@ -68,7 +68,7 @@ export default function RecipeCard({ itemData }) {
         } else
           notification.error({
             message: 'Error Deleting Image',
-            description: `${error.message}`
+            description: `${obj.error.message}`
           })
       })
     }
@@ -83,7 +83,7 @@ export default function RecipeCard({ itemData }) {
       } else
         notification.error({
           message: 'Error Deleting Recipe',
-          description: `${error.message}`
+          description: `${obj.error.message}`
         })
     })
   }
