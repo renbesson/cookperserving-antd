@@ -1,4 +1,4 @@
-import { collection, orderBy, query, Timestamp } from 'firebase/firestore'
+import { collection, orderBy, query, serverTimestamp } from 'firebase/firestore'
 import { useAtomValue } from 'jotai'
 import { userAtom } from '../lib/atoms'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -27,8 +27,8 @@ export default function myRecipes() {
       servings: '',
       ingredients: [],
       directions: '',
-      createdOn: Timestamp.now(),
-      modifiedOn: Timestamp.now()
+      createdAt: serverTimestamp(),
+      modifiedOn: serverTimestamp()
     }
     await addToFirestore(path, newUid, newRecipe).then((obj) => {
       if (obj?.success) {

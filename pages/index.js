@@ -5,6 +5,10 @@ import { userAtom } from '../lib/atoms'
 
 export default function Home() {
   const user = useAtomValue(userAtom)
-  return <div>{JSON.stringify(user)}</div>
+  return user ? (
+    <div>Your user data is: {JSON.stringify(user)}</div>
+  ) : (
+    <div>You are not logged in</div>
+  )
 }
 

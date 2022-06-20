@@ -10,11 +10,7 @@ export default function SignUpDrawer() {
   const [user, loadingUser, errorUser] = useAtom(userAtom)
   const [profileOn, setProfileOn] = useAtom(profileOnAtom)
 
-  const [editedUser, setEditedUser] = useState({
-    displayName: user?.displayName,
-    email: user?.email,
-    phoneNumber: user?.phoneNumber
-  })
+  const [userLocal, setUserLocal] = useState(user)
 
   const screens = Grid.useBreakpoint()
 
@@ -30,6 +26,7 @@ export default function SignUpDrawer() {
           notification.success({
             message: 'Profile updated successfully'
           })
+          setProfileOn(false)
         } else
           notification.error({
             message: 'Error Updating Profile',
@@ -49,6 +46,7 @@ export default function SignUpDrawer() {
     return (
       <Drawer
         placement="right"
+        destroyOnClose
         closable={false}
         onClose={() => setProfileOn(false)}
         visible={profileOn}
@@ -77,8 +75,8 @@ export default function SignUpDrawer() {
               name="displayName"
               id="displayName"
               placeholder="Display Name"
-              value={editedUser?.displayName}
-              onChange={(e) => setEditedUser({ ...editedUser, displayName: e.target.value })}
+              value={userLocal?.displayName}
+              onChange={(e) => setUserLocal({ ...userLocal, displayName: e.target.value })}
             />
           </Form.Item>
           <Form.Item
@@ -90,8 +88,8 @@ export default function SignUpDrawer() {
               name="email"
               id="email"
               placeholder="Email Address"
-              value={editedUser?.email}
-              onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
+              value={userLocal?.email}
+              onChange={(e) => setUserLocal({ ...userLocal, email: e.target.value })}
             />
           </Form.Item>
           <Form.Item
@@ -103,8 +101,8 @@ export default function SignUpDrawer() {
               name="phoneNumber"
               id="phoneNumber"
               placeholder="phoneNumber"
-              value={editedUser?.phoneNumber}
-              onChange={(e) => setEditedUser({ ...editedUser, phoneNumber: e.target.value })}
+              value={userLocal?.phoneNumber}
+              onChange={(e) => setUserLocal({ ...userLocal, phoneNumber: e.target.value })}
             />
           </Form.Item>
           <Button type="primary" htmlType="submit">

@@ -1,4 +1,4 @@
-import { collection, orderBy, query, serverTimestamp, Timestamp } from 'firebase/firestore'
+import { collection, orderBy, query, serverTimestamp } from 'firebase/firestore'
 import { useAtomValue } from 'jotai'
 
 import { userAtom } from '../lib/atoms'
